@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"sync"
 	"time"
@@ -19,10 +18,13 @@ const (
 func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		_, err := w.Write([]byte("привет как дела?"))
+	r.Get("/{city}", func(w http.ResponseWriter, r *http.Request) {
+
+		city := chi.URLParam(r, "city")
+		fmt.Println(city)
+		_, err := w.Write([]byte(city))
 		if err != nil {
-			log.Println(err)
+			panic(err)
 		}
 	})
 
